@@ -57,6 +57,8 @@
 (require 'sha1)
 
 (defvar anything-hatena-bookmark-file "~/.hatenabookmark")
+(defvar anything-hatena-bookmark-candidate-number-limit 9999)
+(defvar anything-hatena-bookmark-requires-pattern 3)
 
 (defun anything-hatena-bookmark-get-dump ()
   "Get Hatena::Bookmark dump file."
@@ -102,12 +104,14 @@
     (kill-buffer (current-buffer))))
 
 (defvar anything-c-source-hatena-bookmark
-  '((name . "Hatena::Bookmark")
+  `((name . "Hatena::Bookmark")
     (init
      . (lambda ()
          (call-process-shell-command
           (concat "less -f " anything-hatena-bookmark-file)  nil (anything-candidate-buffer 'global))))
     (candidates-in-buffer)
+    (candidate-number-limit . ,anything-hatena-bookmark-candidate-number-limit)
+    (requires-pattern . ,anything-hatena-bookmark-requires-pattern)    
     (migemo)
     (multiline)
     (action
