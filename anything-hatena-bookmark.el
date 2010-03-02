@@ -107,8 +107,8 @@
   `((name . "Hatena::Bookmark")
     (init
      . (lambda ()
-         (call-process-shell-command
-          (concat "less -f " anything-hatena-bookmark-file)  nil (anything-candidate-buffer 'global))))
+           (with-current-buffer (anything-candidate-buffer 'global)
+             (insert-file-contents anything-hatena-bookmark-file))))
     (candidates-in-buffer)
     (candidate-number-limit . ,anything-hatena-bookmark-candidate-number-limit)
     (requires-pattern . ,anything-hatena-bookmark-requires-pattern)    
