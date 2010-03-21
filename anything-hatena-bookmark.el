@@ -33,6 +33,7 @@
 ;; desired.  And put the following expression into your ~/.emacs.
 ;;
 ;; (require 'anything-hatena-bookmark)
+;; (setq anything-hatena-bookmark-samewindow t)
 ;;
 ;; And, you should execute `anything-hatena-bookmark-get-dump to reflesh dump file.
 
@@ -59,6 +60,7 @@
 (defvar anything-hatena-bookmark-file "~/.hatenabookmark")
 (defvar anything-hatena-bookmark-candidate-number-limit 9999)
 (defvar anything-hatena-bookmark-requires-pattern 3)
+(defvar anything-hatena-bookmark-samewindow anything-samewindow)
 
 (defun anything-hatena-bookmark-get-dump ()
   "Get Hatena::Bookmark dump file."
@@ -128,10 +130,11 @@
 (defun anything-hatena-bookmark ()
   "Search Hatena::Bookmark using `anything'."
   (interactive)
-  (unless (file-exists-p anything-hatena-bookmark-file)
-    (anything-hatena-bookmark-get-dump))
-  (anything
-   '(anything-c-source-hatena-bookmark) nil "Find Bookmark: " nil nil))
+  (let ((anything-samewindow anything-hatena-bookmark-samewindow))
+    (unless (file-exists-p anything-hatena-bookmark-file)
+      (anything-hatena-bookmark-get-dump))
+    (anything
+     '(anything-c-source-hatena-bookmark) nil "Find Bookmark: " nil nil)))
 
 (provide 'anything-hatena-bookmark)
 
